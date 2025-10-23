@@ -21,7 +21,8 @@ You will:
    ```
 4. Run the server:
    ```
-   npm start
+   # create a .env file from .env.example and (optionally) set API_KEY
+   node server.js
    ```
 
 ## Files Included
@@ -45,6 +46,31 @@ The API will have the following endpoints:
 - `POST /api/products`: Create a new product
 - `PUT /api/products/:id`: Update a product
 - `DELETE /api/products/:id`: Delete a product
+
+Additional features implemented:
+
+- Filtering by category: `GET /api/products?category=electronics`
+- Pagination: `GET /api/products?page=2&limit=5`
+- Search (query): `GET /api/products?search=phone`
+- Explicit search endpoint: `GET /api/products/search?name=phone`
+- Statistics: `GET /api/products/stats` (returns total, avgPrice, countByCategory)
+
+Authentication:
+
+- All `/api` routes require an API key provided via the `x-api-key` header (or `Authorization`).
+- Default API key: `secret-key` (change in your `.env` file by setting `API_KEY`).
+
+Sample requests (using curl):
+
+```bash
+# List products (with API key)
+curl -H "x-api-key: secret-key" http://localhost:3000/api/products
+
+# Create a product
+curl -X POST -H "Content-Type: application/json" -H "x-api-key: secret-key" \
+   -d '{"name":"Table","description":"Wooden dining table","price":250,"category":"furniture","inStock":true}' \
+   http://localhost:3000/api/products
+```
 
 ## Submission
 
